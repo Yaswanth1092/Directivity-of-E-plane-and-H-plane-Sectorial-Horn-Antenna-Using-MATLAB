@@ -1,0 +1,117 @@
+function [] = horn  
+Plane sectorial Horn');  
+R1 = [];  
+R2 = [];  
+   disp('Directivity of E
+R1 = input('rho1(in wavelengths) = ');  
+R2 = input('rho2(in wavelengths) = ');  
+%R1=6; R2=6;a=0.5; b=0.25; a1=5.5; b1=2.75; a=[]; b=[];  
+a = input('a(in wavelengths) = ');     
+b = input('b(in wavelengths) = ');  
+a1 = [];     
+b1 = [];  
+a1 = input('a1(in wavelengths) = ');
+ input('b1(in wavelengths) = ');
+     u 
+= 
+     b1 = 
+(1/sqrt(2))*((sqrt(R2)/a1)+(a1/sqrt(R2)));
+ = (1/sqrt(2))*((sqrt(R2)/a1)-(a1/sqrt(R2)));     
+u = Fresnel(u); 
+    v = Fresnel(v);
+ Fresnel(b1/sqrt(2*R1));  
+     w = 
+     v 
+DE = 64*a*R1/(pi*b1)*((real(w))^2 + (imag(w))^2);  
+DH = 4*pi*b*R2/a1*((real(u)-real(v))^2 + (imag(u)-imag(v))^2);  
+DE = 10*log10(DE); % in db scale  
+DH = 10*log10(DH); % in db scale  
+disp(['Directivity in E-plane (DE) = ', num2str(DE), ' dB']);  
+    disp(['Directivity in H-plane (DH) = ', num2str(DH), ' dB']);  
+  
+    function [y] = Fresnel(x)         
+A(1) = 1.595769140;  
+        A(2) = -0.000001702;  
+        A(3) = -6.808508854;  
+        A(4) = -0.000576361;  
+        A(5) = 6.920691902;  
+        A(6) = -0.016898657;  
+        A(7) = -3.050485660;  
+        A(8) = -0.075752419;  
+        A(9) = 0.850663781;  
+        A(10) = -0.025639041;  
+        A(11) = -0.150230960;         
+A(12) = 0.034404779;  
+        B(1) = -0.000000033;  
+        B(2) = 4.255387524;  
+        B(3) = -0.000092810;  
+        B(4) = -7.780020400;  
+        B(5) = -0.009520895;  
+        B(6) = 5.075161298;  
+        B(7) = -0.138341947;  
+        B(8) = -1.363729124;  
+        B(9) = -0.403349276;  
+        B(10) = 0.702222016;  
+        B(11) = -0.216195929;  
+        B(12) = 0.019547031;  
+        CC(1) = 0;  
+        CC(2) = -0.024933975;  
+        CC(3) = 0.000003936;  
+        CC(4) = 0.005770956;  
+        CC(5) = 0.000689892;  
+        CC(6) = -0.009497136;  
+        CC(7) = 0.011948809;  
+        CC(8) = -0.006748873;  
+        CC(9) = 0.000246420;  
+        CC(10) = 0.002102967;  
+        CC(11) = -0.001217930;  
+        CC(12) = 0.000233939;  
+        D(1) = 0.199471140;  
+        D(2) = 0.000000023;  
+        D(3) = -0.009351341;  
+        D(4) = 0.000023006;  
+        D(5) = 0.004851466;  
+        D(6) = 0.001903218;  
+        D(7) = -0.017122914;  
+        D(8) = 0.029064067;  
+        D(9) = -0.027928955;  
+        D(10) = 0.016497308;  
+        D(11) = -0.005598515;  
+        D(12) = 0.000838386;  
+  
+        if (x == 0)             
+y = 0;             return         
+elseif (x < 0)             x 
+= abs(x);             x = 
+(pi/2) * x^2;             F 
+= 0;             if (x < 4)                 
+for (k = 1:12)  
+                    F = F + (A(k) + j*B(k)) * (x/4)^(k
+1);                 end                 y = F * sqrt(x/4) * 
+exp(-j*x);  
+                y = -y;                 
+return             else                 
+for (k = 1:12)  
+                    F = F + (CC(k) + j*D(k)) * (4/x)^(k
+1);                 end                 y = F * sqrt(4/x) * 
+exp(-j*x) + (1 - j)/2;  
+                y = -y;                 
+return             end         
+else             x = (pi/2) * 
+x^2;             F = 0;             
+if (x < 4)                 for 
+(k = 1:12)  
+                    F = F + (A(k) + j*B(k)) * (x/4)^(k
+1);                 end                 y = F * sqrt(x/4) * 
+exp(-j*x);  
+                return             
+else                 for (k = 
+1:12)  
+                    F = F + (CC(k) + j*D(k)) * (4/x)^(k
+1);                 end                 y = F * sqrt(4/x) * 
+exp(-j*x) + (1 - j)/2;  
+                
+return             
+end         end  
+    end  
+end  
